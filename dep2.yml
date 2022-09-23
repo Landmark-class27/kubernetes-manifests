@@ -25,3 +25,107 @@ spec:
         image: nginx:1.7.9
         ports:
         - containerPort: 80
+        
+        -------------------------------------------------------------------------
+        
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  selector:
+    matchLabels:
+      app: mavenapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  minReadySeconds: 30
+  replicas: 4
+  template:
+    metadata:
+      name: mavenapppod
+      labels:
+        app: mavenapp
+    spec:
+      containers:
+      - name: mavenappcontainer
+        image: legah2045/maven-web-app
+        ports:
+        - containerPort: 8080
+        
+        ----------------------------------------------------------------
+        
+# example 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+spec:
+  strategy: RollingUpdates 
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mavenapp
+  template:
+    metadata:
+      name: mavenapppod
+      labels:
+        app: mavenapp
+    spec:
+      containers:
+      - name: mavenappcontainer
+        image: legah2045/maven-web-app
+        ports:
+        - containerPort: 8080 
+        -------------------------------------------------------------
+        apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: springapp 
+spec:
+  selector:
+    matchLabels:
+      app: springapp
+  replicas: 3 
+  template: 
+    metadata: 
+      name: springapp
+      labels:
+        app: springapp
+    spec:
+      containers: 
+        - name: springapp
+          image: mylandmarktech/spring-boot-mongo 
+          ports: 
+          - containerPort: 8080
+          env:
+          - name: MONGO_DB_USERNAME
+            value: devdb
+          - name: MONGO_DB_PASSWORD
+            value: devdb@123
+          - name: MONGO_DB_HOSTNAME
+          
+          -----------------------------------------------------------------
+          
+          apiVersion: v1/apps 
+kind: DaemonSet 
+metadata:
+  name: log-ds
+spec::
+  selector:
+    matchLabels:
+      tier: frontend   
+  template:
+    metadata:
+      name: logapp 
+      labels:
+        tier: frontend 
+    spec:
+      containers:
+      -  name: logapp
+         images: mylandmarktech/hello 
+         ports:
+         - containerPort: 80
+        
